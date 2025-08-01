@@ -8,7 +8,6 @@ import com.example.bankcards.exception.custom_exceptions.*;
 import com.example.bankcards.repository.CardRepository;
 import com.example.bankcards.repository.CardStatusRepository;
 import com.example.bankcards.repository.UserRepository;
-import com.example.bankcards.util.CardNumberEncryptor;
 import jakarta.persistence.PersistenceException;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
@@ -24,7 +23,6 @@ public class CardService {
     private final CardRepository cardRepository;
     private final UserRepository userRepository;
     private final CardStatusRepository cardStatusRepository;
-    private final CardNumberEncryptor encryptor;
 
     public CardResponse createCard(CreateCardRequest req)
     throws CardStatusException, DatabaseException, UserException, UpdateEntityException {

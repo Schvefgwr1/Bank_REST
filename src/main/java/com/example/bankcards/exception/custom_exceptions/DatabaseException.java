@@ -4,4 +4,8 @@ public class DatabaseException extends RuntimeException {
     public DatabaseException(String message) {
         super(message);
     }
+
+    public String getMessage() {
+        return "Error of DB: " + super.getMessage();
+    }
 }
