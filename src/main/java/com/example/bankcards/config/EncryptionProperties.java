@@ -7,8 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @Getter
@@ -21,7 +21,15 @@ public class EncryptionProperties {
 
     @PostConstruct
     public void loadSecret() throws IOException {
-        String base64Key = Files.readString(Paths.get(keyPath)).trim();
-        this.secret = Base64.getDecoder().decode(base64Key);
+        String resourceLocation = keyPath.startsWith("classpath:")
+                ? keyPath.substring("classpath:".length())
+                : keyPath;
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourceLocation)) {
+            if (is == null) {
+                throw new IOException("Encryption key not found on classpath: " + resourceLocation);
+            }
+            String base64Key = new String(is.readAllBytes(), StandardCharsets.UTF_8).trim();
+            this.secret = Base64.getDecoder().decode(base64Key);
+        }
     }
 }

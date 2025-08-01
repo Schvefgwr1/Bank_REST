@@ -7,9 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 import java.util.Base64;
 
 @Getter
@@ -22,7 +20,16 @@ public class JwtProperties {
 
     @PostConstruct
     public void loadSecret() throws IOException {
-        byte[] keyBytes = Files.readAllBytes(Paths.get(keyPath));
-        this.secret = Base64.getEncoder().encodeToString(keyBytes);
+        String resourceLocation = keyPath.startsWith("classpath:")
+                ? keyPath.substring("classpath:".length())
+                : keyPath;
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream(resourceLocation)) {
+            if (is == null) {
+                throw new IOException("JWT key not found on classpath: " + resourceLocation);
+            }
+            byte[] keyBytes = is.readAllBytes();
+            this.secret = Base64.getEncoder().encodeToString(keyBytes);
+        }
     }
 }
+

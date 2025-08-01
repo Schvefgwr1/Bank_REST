@@ -21,9 +21,9 @@ logging:
   level:
     root: INFO
 encryption:
-  key-path: src/main/resources/keys/card.key
+  key-path: classpath:keys/card.key
 jwt:
-  key-path: src/main/resources/keys/jwt.key
+  key-path: classpath:keys/jwt.key
 springdoc:
   api-docs:
     enabled: true
