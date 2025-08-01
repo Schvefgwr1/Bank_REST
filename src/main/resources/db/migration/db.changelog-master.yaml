@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - include:
+      file: db/migration/1-create-permissions.yaml
+  - include:
+      file: db/migration/2-create-roles.yaml
+  - include:
+      file: db/migration/3-create-users.yaml
+  - include:
+      file: db/migration/4-create-card-status.yaml
+  - include:
+      file: db/migration/5-create-cards.yaml
+  - include:
+      file: db/migration/6-create-card-transfers.yaml
+  - include:
+      file: db/migration/7-create-card-block-requests.yaml

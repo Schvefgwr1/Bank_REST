@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - changeSet:
+      id: 7
+      author: vsevolod
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_block_requests
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: card_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: requested_at
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(255)
+            tableName: card_block_requests
+        - addForeignKeyConstraint:
+            baseColumnNames: card_id
+            baseTableName: card_block_requests
+            constraintName: FK_CARD_BLOCK_REQUESTS_ON_CARD
+            referencedColumnNames: id
+            referencedTableName: cards

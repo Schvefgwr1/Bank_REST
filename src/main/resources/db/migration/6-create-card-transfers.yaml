@@ -1,0 +1,48 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: vsevolod
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_card_transfers
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: from_card_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: to_card_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: amount
+                  type: DECIMAL
+              - column:
+                  constraints:
+                    nullable: false
+                  name: transfer_time
+                  type: DATETIME
+            tableName: card_transfers
+        - addForeignKeyConstraint:
+            baseColumnNames: from_card_id
+            baseTableName: card_transfers
+            constraintName: FK_CARD_TRANSFERS_ON_FROM_CARD
+            referencedColumnNames: id
+            referencedTableName: cards
+        - addForeignKeyConstraint:
+            baseColumnNames: to_card_id
+            baseTableName: card_transfers
+            constraintName: FK_CARD_TRANSFERS_ON_TO_CARD
+            referencedColumnNames: id
+            referencedTableName: cards
